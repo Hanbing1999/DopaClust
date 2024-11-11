@@ -66,9 +66,6 @@ The primary FIGURE includes comprehensive details about each neuron:
 58. Tonic features
 59. Mark (1 for photo-tagged, -1 for non-identified)
 
-## To-Do List
-1. Implement the Inverse Participation Ratio (IPR) for feature selection.
-
 ---
 
 This project provides a robust framework for unsupervised clustering and characterization of neuron types based on electrophysiological data. Each function and script plays a specific role in the data processing pipeline, from feature extraction to clustering and visualization.
