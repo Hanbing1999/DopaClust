@@ -1,3 +1,5 @@
+Unsupervised clustering for putative dopamine neuron identification from tetrode recordings	
+
 ***********************************************************************************
 %Scripts and functions
 
