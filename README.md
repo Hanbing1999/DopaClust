@@ -1,6 +1,6 @@
 # Unsupervised Clustering for Putative Dopamine Neuron Identification from Tetrode Recordings
 
-This repository contains MATLAB scripts and functions designed for unsupervised clustering of large-scale dopamine neurons based on their electrophysiological properties extracted from time-series tetrode recordings. The primary focus is to differentiate putative dopamine (pDA) neurons from non-dopamine neurons by extracting key time-series features and applying clustering techniques.
+This repository contains MATLAB scripts and functions designed for unsupervised clustering of large-scale dopamine neurons based on their electrophysiological properties extracted from time-series tetrode recordings. A downstream linear SVM uses the cluster structure for out-of-sample predictions. The code includes reproducible pipelines for feature tables, clustering, visualization, and evaluation. The primary focus is to differentiate putative dopamine (pDA) neurons from non-dopamine neurons by extracting key time-series features and applying clustering techniques.
 
 ## Workflow
 <img src="Thesis_report/Figures/workflow2.png" alt="Work flow" width="600">
@@ -62,7 +62,7 @@ The sketch of the workflow contains five main steps: extracellular recordings of
 </tr>
 </table>
 
-### 4. k-means clustering of extracellular waveforms and firing patterns from pDA and non-pDA clusters
+### 4. Validation: k-means clustering of extracellular waveforms and firing patterns from pDA and non-pDA clusters
 <img src="Thesis_report/Figures/classification.png" alt="Work flow" width="400"> 
 (A) Normalized waveforms for units from pDA (green) and non-pDA (red) clusters (n=243 in the pDA cluster; n = 77 in the non-pDA cluster).
 (B) Normalized log inter-spike intervals (ISIs) of representative neurons from the pDA cluster and the non-pDA cluster. Two thresholds define the burst and pause thresholds.
