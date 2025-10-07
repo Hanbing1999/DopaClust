@@ -2,9 +2,77 @@
 
 This repository contains MATLAB scripts and functions designed for unsupervised clustering of large-scale dopamine neurons based on their electrophysiological properties extracted from time-series tetrode recordings. The primary focus is to differentiate putative dopamine (pDA) neurons from non-dopamine neurons by extracting key time-series features and applying clustering techniques.
 
-## Feature extraction
-![alt text](<img width="2955" height="4937" alt="feature extraction" src="https://github.com/user-attachments/assets/fb1d0855-d09e-40c0-8737-4eee18ecdcd2" />
-) 
+## Workflow
+<img src="Thesis_report/Figures/workflow2.png" alt="Work flow" width="600">
+
+The sketch of the workflow contains five main steps: extracellular recordings of neurons in the VTA, feature extraction, dimensionality reduction, putative DA (pDA) neurons identification by unsupervised clustering methods, and model evaluations and predictions.
+(A) The VTA of male DAT-Cre mice were injected with Cre-dependent AAV virus expressing ChR2. Pulses of light were delivered to activate ChR2-expressing neurons after a virtual-reality reward delivery task.
+(B) Five spike waveform properties.
+(C) The spike trains from an exmaple neuron. Orange and green horizontal bars represent pause and busrt respectively.
+(D) An exmaple 3D t-SNE scatter plot for extracellularly recorded neurons in the VTA. For unsupervised clustering under best performance, set circular borders on them according to their membership (non-pDA, red borders; pDA, green borders) determined by a specific unsupervised clustering.
+
+### 1. Feature extraction
+<img src="Thesis_report/Figures/feature%20extraction.png" alt="Work flow" width="300">
+(A) Total duration 1 and Total duration 2 extracted from 8 example neurons. The time courses of spike waveform amplitude from each neuron (blue line). Total duration 1 is the distance between green dotted lines, while Total duration 2 is the distance between pink dotted lines.
+(B) Half-width extracted from 8 example neurons. Half-width is the duration between pink dotted lines.
+(C) Peak-to-trough duration and repolarization time extracted from 8 example neurons. The red, blue, and green points in each subplot correspond to peak, trough, and inflection points respectively. Peak-to-trough duration represents the distance between peak and trough, while repolarization time is the distance between trough and inflection point.
+(D) Normalized log inter-spike intervals (ISIs) of a representative neuron in the VTA. Two dark vertical lines define the burst and pause thresholds. Different shades of blue represent pause, tonic and burst respectively.
+
+### 2. Principal component analysis for dimensionality reduction and t-SNE
+<img src="Thesis_report/Figures/PCA.png" alt="Work flow" width="400">
+(A) Variance explained by principal components (PCs). 38 PCs explain 99.3% variances of the training dataset.
+(B) 3D scatter plot of the first three PCs showing the clustering of phototagged DA neurons (yellow points; n= 80) and non-phototagged neurons (blue points; n =240).
+(C) 2D t-SNE scatter plot with PCA initialization.
+
+### 3. Unsupervised clustering of extracellularly recorded neurons in the VTA
+<table>
+<tr>
+<td width="50%">
+  <img src="Thesis_report/Figures/different_clustering_results.png" alt="clustering" width="100%">
+</td>
+<td width="50%">
+  (A–E) 3D t-SNE scatter plot for extracellularly recorded neurons in the VTA
+  (phototagged DA 30 neurons, yellow, n=80; non-phototagged neurons, dark blue, n=240).  
+  For unsupervised clustering under best performance, set circular borders on them according
+  to their membership (non-pDA, red borders; pDA, green borders) determined by k-means,
+  DBSCAN, k-medoids, GMM, and OCSVM.  
+  True positive rate (TP) (%) and the proportion of putative DA neurons among all recorded
+  neurons (%) were calculated in each clustering model.  
+
+  (F) TP (%) of various unsupervised clustering methods. Each method for 100 times.  
+  (G) Proportion of putative DA neurons of various unsupervised clustering methods. Each
+  method for 100 times. Box plots indicate the median (red center line), first quartiles
+  (the bottom and top edges), minimum/maximum values (whiskers), and outliers (red +).
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="50%">
+  <img src="Thesis_report/Figures/gmm%20vs%20kmeans.png" alt="clustering" width="100%">
+</td>
+<td width="50%">
+   Evaluation of k-means and GMM
+   (A) TP (%) and pDA (%) across different sample sizes ranging from 19 to 489 based on k-means clustering. Plotted in mean ± S.D.
+   (B) TP (%) and pDA (%) across different sample sizes ranging from 19 to 489 based on k-means clustering. Plotted in mean ± S.D.
+   (C) The Calinski-Harabasz index with varying clusters in k-means. The best number if cluster is marked by a filled blue point.
+   (D) The Calinski-Harabasz index with varying clusters in GMM. The best number if cluster is marked by a filled blue point.
+</td>
+</tr>
+</table>
+
+### 4. k-means clustering of extracellular waveforms and firing patterns from pDA and non-pDA clusters
+<img src="Thesis_report/Figures/classification.png" alt="Work flow" width="400"> 
+(A) Normalized waveforms for units from pDA (green) and non-pDA (red) clusters (n=243 in the pDA cluster; n = 77 in the non-pDA cluster).
+(B) Normalized log inter-spike intervals (ISIs) of representative neurons from the pDA cluster and the non-pDA cluster. Two thresholds define the burst and pause thresholds.
+(C-F) Scatter plot with histograms for firing rates versus spike waveform properties of clustered neurons. Each data point represents a neuron. The baseline firing rate is plotted in the ordinate, spike width, peak-to-trough duration, repolarization time and total duration are plotted in the abscissa.
+
+### 5. Prediction: The Clustering Structure in K-means Model could Predict pDA Neurons in the Testing Dataset
+<img src="Thesis_report/Figures/k-means.png" alt="Work flow" width="400"> 
+Prediction models using labels obtained from k-means clustering
+(A) Euclidean distance clustering predictions for recorded neurons from the testing dataset (n=169).
+(B) Clustering predictions generated from a linear SVM for recorded neurons from the testing dataset (n=169).
 
 ## Repository Contents
 
