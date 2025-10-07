@@ -1,6 +1,10 @@
 # Unsupervised Clustering for Putative Dopamine Neuron Identification from Tetrode Recordings
 
-This repository contains MATLAB scripts and functions designed for unsupervised clustering of dopamine neurons based on their electrophysiological properties extracted from tetrode recordings. The primary focus is to differentiate putative dopamine (pDA) neurons from non-dopamine neurons by extracting key features and applying clustering techniques.
+This repository contains MATLAB scripts and functions designed for unsupervised clustering of large-scale dopamine neurons based on their electrophysiological properties extracted from time-series tetrode recordings. The primary focus is to differentiate putative dopamine (pDA) neurons from non-dopamine neurons by extracting key time-series features and applying clustering techniques.
+
+## Feature extraction
+![alt text](<img width="2955" height="4937" alt="feature extraction" src="https://github.com/user-attachments/assets/fb1d0855-d09e-40c0-8737-4eee18ecdcd2" />
+) 
 
 ## Repository Contents
 
