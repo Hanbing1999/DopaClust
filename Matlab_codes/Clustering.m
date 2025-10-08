@@ -78,7 +78,6 @@ title('PCA-t-SNE')
 % saveas(gca,['D:\graduation thesis\results\PCA\58 feature\''PCA'],'svg')
 % set (gcf,'PaperPosition',[-1,10,25,15],'PaperSize',[23 27])
 % print(gcf,'-dtiff','-r300',['D:\graduation thesis\results\PCA\58 feature\' 'PCA TSNE with title']);
-
 %% 2. K-means to identify pDA among all units
 figure;
 %0. k-means 
@@ -120,7 +119,6 @@ idx(find(idx ==3)) = 1;
 idx(find(idx ==4)) = 2;
 end 
 [TPpDA,pDA] = Clustering_plotting(x,m,yTrain,idx,name,1)
-
 % 1.  kmedoids
 name = 'k-medoids';
 k = 2;
@@ -138,7 +136,6 @@ idx(find(idx ==3)) = 1;
 idx(find(idx ==4)) = 2;
 end 
 [TPpDA,pDA] = Clustering_plotting(x,m,yTrain,idx,name,2)
-
 %2. Density-based spatial clustering of applications with noise (DBSCAN)
 figure;
 name = 'DBSCAN';
@@ -156,7 +153,6 @@ idx(find(idx ==3)) = 1;
 idx(find(idx ==4)) = 2;
 end 
 [TPpDA,pDA] = Clustering_plotting(x,m,yTrain,idx,name,1)
-
 %3. Gaussian Mixture Model 
 rng(1); % For reproducibility
 name = 'Gaussian Mixture Model';
@@ -176,12 +172,10 @@ GMModel = fitgmdist(xTrain,2);%,'SharedCovariance',true
 % fcontour(gmPDF,[-6 8 -4 6])
 % form clusters
 % creat a 2D-form
-
 % gm = gmdistribution(GMModel.mu(:,1:2), GMModel.Sigma(1:2,1:2,:));
 % gmPDF = @(x1,x2)reshape(pdf(gm,[x1(:) x2(:)]),size(x1));
 % g = gca;
 % fcontour(gmPDF,[g.XLim g.YLim])
-
 idx = cluster(GMModel,xTrain);
 idx(find(idx==1))= 0;
 idx(find(idx==2)) = 3;
@@ -189,7 +183,6 @@ idx(find(idx==3)) = 1;
 idx(find(idx==0)) = 2;
 P = posterior(GMModel,xTrain);
 [TPpDA,pDA] = Clustering_plotting(x,m,yTrain,idx,name,2)
-
 % 4. one-class SVM (OCSVM)
 figure;
 rng(1); % For reproducibility
@@ -201,7 +194,6 @@ svInd(find(svInd==0))= 2;% 2 is DA
 svInd(find(svInd==1)) = 1; 
 idx = svInd;
 [TPpDA,pDA] = Clustering_plotting(x,m,yTrain,idx,name,1)
-
 %% 3. Evaluate different clustering methods
 rng('default');  % For reproducibility
 figure;
@@ -219,7 +211,6 @@ plot(eva)
 ylabel ('Calinski-Harabasz value');xlabel('Clusters')
 ylim([10 40])
 title(name)
-
 set (gcf,'PaperPosition',[-1,10,20,10],'PaperSize',[20 10])
 print(gcf,'-dtiff','-r300',['D:\graduation thesis\results\PCA\58 feature\K-means\' 'compare']);
 %% 3.1 Go back to waveforms
@@ -229,7 +220,6 @@ npDA_idx = find(idx ==1);
 tDA_idx = random(tDA_idx);
 pDA_idx = random(pDA_idx);
 npDA_idx = random(npDA_idx);
-
 figure();
 tmin = -20;
 tmax = 10;
@@ -277,12 +267,10 @@ plot(x,y,'k')
 y = -700:-200;
 x = 30 *ones(1,length(y));
 plot(x,y,'color','k')
-text(30.5,-500,'500 ¦Ìv','FontSize', 6)
+text(30.5,-500,'500 v','FontSize', 6)
 text (27,-800,'0.25 ms','FontSize', 6)
-
 set (gcf,'PaperPosition',[-1,10,15,35],'PaperSize',[25 15])
 print(gcf,'-dtiff','-r300',['D:\graduation thesis\results\PCA\58 feature\K-means\' 'DA sorting3']);
-
 npDA_m = [];
 npDA_mu = [];
 npDA_std = [];
@@ -312,11 +300,9 @@ npDA_idx = find(idx ==1);
 tDA_idx = random(tDA_idx);
 pDA_idx = random(pDA_idx);
 npDA_idx = random(npDA_idx);
-
 tDA_ISI = [];
 pDA_ISI =[];
 npDA_ISI = [];
-
 for n = 1:length(tDA_idx)
    % n=30
 n=31;
@@ -326,7 +312,6 @@ spiketime = spiketime';
 Spikes = spiketime/1000;
 ISI_plotting (Spikes,'#0D4A70','#3C93C2','#9EC9E2'); % burst tonic pasue
 end 
-
 for n = 1:length(pDA_idx)
     n=102
 last = max(find(FIGURE{pDA_idx(n),11}<300000)); % first 5 min
@@ -335,7 +320,6 @@ spiketime = spiketime';
 Spikes = spiketime/1000;
 ISI_plotting (Spikes,'#06592A','#40AD5A','#6CBA7D'); % burst tonic pasue
 end 
-
 for n = 1:length(npDA_idx)
     %n=3;
     n=24
@@ -349,7 +333,7 @@ end
 TPpDAs_5model = [];
 pDAs_5model = [];
 % range = 19:50:489;
-range = num_train;
+range = 50:50:300; % CORRECTED: Was a scalar, now a vector for plotting
 k = 2;
 %youfun = 2; % 1:kmeans; 2:GMM
 for youfun = 4
@@ -394,8 +378,6 @@ end
 suptitle(name)
 set (gcf,'PaperPosition',[-1,10,15,15],'PaperSize',[20 20])
 print(gcf,'-dtiff','-r300',['D:\graduation thesis\results\PCA\58 feature\K-means\' name]);
-
-
 %% 3.4 GMM test for more k
 figure
 gscatter(Y(:,1),Y(:,2),idx)
@@ -407,7 +389,6 @@ legend ('Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','tDA')
 xlabel('t-SNE Dim.1'); ylabel('t-SNE Dim.2');
 axis( [-20 20 -20 30] ) 
 title ('GMM with 5 clusters')
-
 %% 4 Optional: Distribution of repolarization time and ttp 
 data_ttp = [];
 data_rt = [];
