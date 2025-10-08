@@ -76,6 +76,18 @@ Prediction models using labels obtained from k-means clustering
 
 ## Repository Contents
 
+### TL;DR
+```bash
+# 1) Extract features + build tables
+King_2            % outputs feature_table.mat
+
+# 2) Run clustering + figures
+Clustering        % runs KMeans/GMM/DBSCAN/KMedoids, saves results to /results
+
+# 6) Reproduce plots
+Clustering_plotting
+```
+
 ### Scripts and Functions
 
 - **King_2.m**: Main script that calls various functions to preprocess the raw dataset and extract features.
@@ -137,11 +149,6 @@ The primary FIGURE includes comprehensive details about each neuron:
 32-57. Pause features (26 metrics)
 58. Tonic features
 59. Mark (1 for photo-tagged, -1 for non-identified)
-
----
-
-This project provides a robust framework for unsupervised clustering and characterization of neuron types based on electrophysiological data. Each function and script plays a specific role in the data processing pipeline, from feature extraction to clustering and visualization.
-
 
 **************************************************************************************
 ## FIGURE: Main Cell Information
