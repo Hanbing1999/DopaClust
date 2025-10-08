@@ -2,13 +2,21 @@
 %
 % (c) 2020-2021 Hanbing Shen
 %% 0. import path and save path
+mfilePath = mfilename('fullpath');
+% Check if mfilename returned a Live Editor temporary file path
+if contains(mfilePath, 'LiveEditorEvaluationHelper')
+    % If so, get the path of the currently active file in the editor
+    mfilePath = matlab.desktop.editor.getActiveFilename;
+end
+% Extract just the folder path
+current_path = fileparts(mfilePath);
+% Extract the parent folder 
+path = fileparts(current_path);
+path = [path '/'];
 total_cell = 489;
-path = '/home/sara/Dropbox (Uchida Lab)/pDA_codes/'; % import the path
-save_path = '/home/sara/Dropbox (Uchida Lab)/pDA_codes/Results_SaraRun/';
-%% Hanbing's test 
-total_cell = 489;
-path = '/Users/hanbing/Dropbox (Scripps Research)/pDA_codes/'; % import the path
-save_path = '/Users/hanbing/Dropbox (Scripps Research)/pDA_codes/Results_Hanbingrun/';
+save_path = [path 'Results_Hanbingrun/'];
+mkdir(save_path);
+disp(['Directory created (or already exists): ', save_path]);
 %% 0.1. load raw data and check name (Only use when the cells need to be changed)
 Data = load ([path 'DA_spikedata/DAN_list.mat']); % import the photo-tagged neuron mat file
 DANs = Data.DANs;
@@ -117,7 +125,7 @@ for m = 1:61
     sgtitle('Half width')
     xlabel('Time step (1/3k s)','position',[-50,-800,4],'fontsize',13)
     hAxis = axes('visible','off');
-    h = text(-0.1,0.5,'Amplitude (��v)');
+    h = text(-0.1,0.5,'Amplitude (v)');
     set(h,'fontsize',13,'rotation',90,'HorizontalAlignment','center')
     %     set (gcf,'Position',[1500,700,1500,800],'PaperSize',[30 20])
     %     print(gcf,'-dtiff','-r300',[save_path 'half-width' num2str(m)]);
@@ -150,10 +158,10 @@ for m = 1:61
     suptitle('Total duration')
     xlabel('Time step (1/3k s)','position',[-50,-800,4],'fontsize',13)
     hAxis = axes('visible','off')
-    h = text(-0.1,0.5,'Amplitude (��v)')
+    h = text(-0.1,0.5,'Amplitude (v)')
     set(h,'fontsize',13,'rotation',90,'HorizontalAlignment','center')
     %set (gcf,'Position',[1500,700,1500,800],'PaperSize',[30 20])
-    %print(gcf,'-dtiff','-r300',[save_path 'total duration']);
+    %print(gcf,'-dtiff','-r300',[save_path 'total_duration' num2str(m)]);
 end
 %% 3.1 Save peak-to-trough and repolarization time NEW
 ip_infor = {};
@@ -177,7 +185,7 @@ for n = 1: range
         suptitle('Peak-to-trough Duration and Repolarization Time')
         xlabel('Time step (1/3k s)','position',[-50,-800,4],'fontsize',13);
         hAxis = axes('visible','off');
-        h = text(-0.1,0.5,'Amplitude (��v)');
+        h = text(-0.1,0.5,'Amplitude (v)');
         set(h,'fontsize',13,'rotation',90,'HorizontalAlignment','center');
     end
 end
@@ -199,12 +207,10 @@ for n = 1
     % xlabel ('ISI');
     % ylabel ('Number of spikes');
 end
-
 times = spiketime'
 times = spiketime(400:600)
 times = times'
 rasterplot(times,1,5000)
-
 % pd = fitdist(window,'Exponential'); % window is the bursts intra ISIs
 % mean(pd);
 % median (pd);
@@ -217,7 +223,6 @@ for n = 1:total_cell
         FIGURE{n,14} = FIGURE{n,14};
     end
 end
-
 for n = 1:total_cell
     if isempty(FIGURE{n,15})
         FIGURE{n,15} = nan;
@@ -225,7 +230,6 @@ for n = 1:total_cell
         FIGURE{n,15} = FIGURE{n,15};
     end
 end
-
 for n = 1:total_cell
     if isempty(FIGURE{n,9})
         FIGURE{n,9} = nan;
@@ -249,7 +253,7 @@ for n = 472
     try
         [Bursts, Pauses] = RGSDetect(Spikes, N_min, Steps, p, alpha, plotting)
     catch
-        print = ['Inconsistent data in iteration, skipped n = ', num2str(n)] % Detect unit that cannot be analyzed by RGSdetect
+        disp(['Inconsistent data in iteration, skipped n = ', num2str(n)]) % Detect unit that cannot be analyzed by RGSdetect
     end
     FIGURE{n,20} = Bursts;
     FIGURE{n,21} = Pauses;
@@ -288,7 +292,6 @@ for n = 1:total_cell
     else
     end
 end
-
 for n = 1:total_cell
     if isempty(FIGURE{n,21})
         FIGURE{n,21} = nan;
@@ -321,7 +324,7 @@ for n = 1:total_cell
         end
         a = [];
         for m= 1: length (Burstings)
-            if find (Bursts.Windows1 == Burstings(m))
+            if find (Bursts.Windows(:,1) == Burstings(m))
                 a = [a m];
             else
             end
@@ -477,7 +480,6 @@ for n = 1:total_cell
     per_Tonics_windows = (Tonics.td/300)*100;
     FIGURE{n,27} = [per_Tonics_windows];
 end
-
 %% 5.1 Import all features into a new table
 table_raw = {}; % Create a cell to save this new feature table
 table_new = []; % row: different units; column: different features
@@ -521,7 +523,6 @@ for n = 1:total_cell
     FIGURE{n,16} = Bursts_feature;
     FIGURE{n,17} = per_Bursts_windows;
 end
-
 for n = 1:total_cell
     if isstruct(FIGURE{n,15})
         Pauses = FIGURE{n,15};
@@ -546,7 +547,6 @@ for n = 1:total_cell
     FIGURE{n,18} = Pauses_feature;
     FIGURE{n,19} = per_Pauses_windows;
 end
-
 %% 5.3 Form a features table (38 features) from FIGURE
 % table = [data_ttp' data_rt' td1s' td2s' hws' bws' pws' IBFs_1' IBFs_2'
 %IBFs_3'  IBFs_4'  IBFs_5'  IBFs_6'  IBFs_7'  IBFs_8'  IBFs_9'  IBFs_10'
@@ -557,4 +557,3 @@ table = feature_table (FIGURE); % Extract features from FIGURE to form a table
 table_raw {1,1} = table; % 38 features table
 %save ([save_path 'table_raw.mat'],'table_raw');
 % T = array2table(table,'VariableNames',{'Trough-to-peak duration','Repolarization time','mark'});
-
